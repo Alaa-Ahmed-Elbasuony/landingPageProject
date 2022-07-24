@@ -1,6 +1,6 @@
 # Landing Page Project
 
-- Five sections are in the page
+- 6 sections are in the page
 - Move between them using interactive navbar
 - Using phone this navbar turns to nav-menu
 - Footer

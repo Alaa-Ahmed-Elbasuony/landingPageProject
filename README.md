@@ -1,8 +1,7 @@
 # Landing Page Project
 
 - 6 sections are in the page
-- Move between them using interactive navbar
-- Using phone this navbar turns to nav-menu
+- Move between them using interactive (Dynanamic) navbar
 - Footer
 
 ## Project Description :-

@@ -23,7 +23,6 @@
  *
  */
 const sectionList = document.querySelectorAll("section");
-const sectionListSize = sectionList.length;
 const navbarUl = document.getElementById("navbar__list");
 /**
  * End Global Variables
@@ -38,42 +37,41 @@ const navbarUl = document.getElementById("navbar__list");
  */
 // build the nav
 function renderNavbar() {
-  for (let i = 0; i < sectionListSize; i++) {
-    const listItem = document.createElement("li");
-    listItem.insertAdjacentHTML(
-      "afterbegin",
-      `<a href="#${sectionList[i].id}" class="menu__link" >${sectionList[i].dataset.nav}</a>`
-    );
-    navbarUl.appendChild(listItem);
-  }
+  //for / foreach / for...of
+  sectionList.forEach((section) => {
+    const liItem = document.createElement("li");
+    liItem.innerHTML = `<a href="#${section.id}" class="menu__link" >${section.dataset.nav}</a>`;
+    // liItem.insertAdjacentHTML(
+    //   "afterbegin",
+    //   `<a href="#${section.id}" class="menu__link" >${section.dataset.nav}</a>`
+    // );
+    navbarUl.appendChild(liItem);
+  });
 }
 
 // Add class 'active' to section when near top of viewport
 function activeMe() {
-  for (let i = 0; i < sectionListSize; i++) {
+  for (section of sectionList) {
+    const choosenSection = document.querySelector(`a[href="#${section.id}"]`);
     if (
-      sectionList[i].getBoundingClientRect().top >= 0 &&
-      sectionList[i].getBoundingClientRect().top <= 400
+      section.getBoundingClientRect().top >= 0 &&
+      section.getBoundingClientRect().top <= 275
     ) {
-      sectionList[i].classList.add("your-active-class");
-      document
-        .querySelector(`a[href="#${sectionList[i].id}"]`)
-        .classList.add("active-on");
+      section.classList.add("your-active-class");
+      choosenSection.classList.add("active-on");
     } else {
-      sectionList[i].classList.remove("your-active-class");
-      document
-        .querySelector(`a[href="#${sectionList[i].id}"]`)
-        .classList.remove("active-on");
+      section.classList.remove("your-active-class");
+      choosenSection.classList.remove("active-on");
     }
   }
 }
-// Scroll to anchor ID using scrollTO event
-navbarUl.addEventListener("click", function (e) {
-  e.preventDefault();
-  const id = e.target.getAttribute("href").substr(1);
+// Scroll to anchor ID using scrollTO event smooth brhavior
+navbarUl.addEventListener("click", function (event) {
+  event.preventDefault();
+  // console.log(event); used it to get event.path[0].hash from console using developer tool
   document
-    .querySelector(`#${id}`)
-    .scrollIntoView({ behavior: "smooth", block: "center" });
+    .querySelector(event.path[0].hash)
+    .scrollIntoView({ behavior: "smooth" });
 });
 /**
  * End Main Functions
@@ -82,12 +80,6 @@ navbarUl.addEventListener("click", function (e) {
  */
 
 // Build menu
-document.addEventListener("DOMContentLoaded", renderNavbar);
-
+renderNavbar();
 // Scroll to section on link click
 document.addEventListener("scroll", activeMe);
-
-// toggler
-document.querySelector(".tower").addEventListener("click", function () {
-  document.querySelector(".navbar__menu").classList.toggle("toggler");
-});
